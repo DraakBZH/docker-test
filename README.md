@@ -74,6 +74,18 @@ docker-test:latest
 
 # Faire un projet docker-compose
 
+voir fichier
+
 # Uploader mon image sur dockerhub
+on se log sur docker hub
+```
+docker login -u draakbzh
+```
+
+on pousse l'image
+```
+docker push draakbzh/docker-test:latest
+```
 
 # Automatiser la création et l'upload de mon image avec Github Action
+
