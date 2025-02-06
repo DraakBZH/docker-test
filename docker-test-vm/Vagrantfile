@@ -1,0 +1,33 @@
+# Vagrantfile pour une VM Debian 12 avec Docker depuis les dépôts Docker
+Vagrant.configure("2") do |config|
+    # Définition de la box Debian 12
+    config.vm.box = "debian/bookworm64"
+    
+    # Configuration des ressources de la VM
+    config.vm.provider "virtualbox" do |vb|
+      vb.name = "Debian-Docker"       # Nom de la VM dans VirtualBox
+      vb.memory = "2048"              # Mémoire RAM allouée
+      vb.cpus = 1                     # Nombre de CPU alloués
+    end
+  
+    # Provisionnement : Installation de Docker depuis les dépôts officiels
+    config.vm.provision "shell", inline: <<-SHELL
+      # Mise à jour des paquets
+      apt-get update
+  
+      # Installation des dépendances pour l'ajout des dépôts Docker
+      apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
+  
+      # Ajout de la clé GPG officielle de Docker
+      curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  
+      # Ajout du dépôt Docker officiel
+      echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+  
+      # Mise à jour des paquets pour inclure les nouveaux paquets Docker
+      apt-get update
+  
+      # Installation de Docker
+      apt-get install -y docker-ce docker-ce-cli containerd.io
+    SHELL
+  end
