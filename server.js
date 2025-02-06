@@ -6,13 +6,18 @@ const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
-
 // Configuration de la connexion MySQL
+
+const mysqlhost = process.env.MYSQL_HOST || "10.118.9.71" 
+const mysqluser = process.env.MYSQL_USER || "draak"
+const mysqlpass = process.env.MYSQL_PASS || "draakpassword"
+const mysqldb = process.env.MYSQL_DB || "draakdb"
+
 const db = mysql.createConnection({
-  host: 'localhost',          // Adresse de votre serveur MySQL
-  user: 'draak',  // Nom d'utilisateur MySQL
-  password: 'draakpassword', // Mot de passe MySQL
-  database: 'draakdb' // Nom de la base de données
+  host: mysqlhost,          // Adresse de votre serveur MySQL
+  user: mysqluser,  // Nom d'utilisateur MySQL
+  password: mysqlpass, // Mot de passe MySQL
+  database: mysqldb // Nom de la base de données
 });
 
 // Connexion à MySQL
@@ -35,7 +40,7 @@ app.get('/', (req, res) => {
 // Route pour récupérer des données depuis la base de données
 app.get('/data', (req, res) => {
   // Exemple de requête SQL : adapter en fonction de votre table
-  const query = 'SELECT * FROM votre_table LIMIT 10';
+  const query = 'SELECT * FROM utilisateurs LIMIT 10';
   db.query(query, (err, results) => {
     if (err) {
       console.error('Erreur lors de la récupération des données:', err);
