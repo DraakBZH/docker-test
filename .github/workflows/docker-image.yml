@@ -12,11 +12,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    #steps:
-    #- uses: actions/checkout@v4
-    #- name: Build the Docker image
-    #  run: docker build . --file Dockerfile --tag draakbzh/docker-test:latest
-
     - name: Log in to Docker Hub
       uses: docker/login-action@main
       with:
