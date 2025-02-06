@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mon Projet Test Docker</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+  </style>
+</head>
+<body>
+  <h1>Bienvenue sur mon projet NPM</h1>
+  <p>Ceci est une page web statique servie par Express.</p>
+
+  <h2>Données depuis MySQL :</h2>
+  <div id="data">Chargement des données...</div>
+
+  <script>
+    // Récupération des données depuis la route /data
+    fetch('/data')
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          document.getElementById('data').innerText = "Erreur : " + data.error;
+          return;
+        }
+        let html = '<ul>';
+        data.forEach(item => {
+          html += '<li>' + JSON.stringify(item) + '</li>';
+        });
+        html += '</ul>';
+        document.getElementById('data').innerHTML = html;
+      })
+      .catch(err => {
+        console.error('Erreur lors de la récupération des données:', err);
+        document.getElementById('data').innerText = "Erreur lors de la récupération des données.";
+      });
+  </script>
+</body>
+</html>
